@@ -1,5 +1,12 @@
 #!/usr/bin/env ruby
 
+require "yaml"
+deployment_config_path =
+  (YAML.load_file(File.expand_path("deployment.yml", ARGV[0])) rescue {}).
+  fetch("heroku", {}).fetch("project_path", ".")
+ARGV[0] = File.expand_path(deployment_config_path, ARGV[0])
+Dir.chdir(ARGV[0])
+
 # sync output
 $stdout.sync = true
 
