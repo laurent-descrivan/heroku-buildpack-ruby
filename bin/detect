@@ -3,11 +3,13 @@
 require "yaml"
 deployment_config = (YAML.load_file(File.expand_path("deployment.yml", ARGV[0])) rescue {}).fetch("heroku", {})
 deployment_config_path = File.expand_path(deployment_config.fetch("project_path", "."), ARGV[0])
+removed_path = File.expand_path(deployment_config.fetch("removed_folders", "svhfsbujbdgfdsgfsINEXISTANTDUMMY"), ARGV[0])
 if File.expand_path(ARGV[0]) != deployment_config_path
 	require "fileutils"
 	%w(Gemfile Gemfile.lock Rakefile).each do |f|
 		FileUtils.ln_s("../#{f}", File.expand_path(f, deployment_config_path))
 	end
+	FileUtils.rm_rf(removed_path)
 end
 ARGV[0] = deployment_config_path
 Dir.chdir(ARGV[0])
