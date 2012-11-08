@@ -9,7 +9,7 @@ if File.expand_path(ARGV[0]) != deployment_config_path
 	%w(Gemfile Gemfile.lock Rakefile).each do |f|
 		FileUtils.ln_s("../#{f}", File.expand_path(f, deployment_config_path))
 	end
-	FileUtils.rm_rf(removed_path)
+	# FileUtils.rm_rf(removed_path)
 end
 FileUtils.touch(File.expand_path("HEROKU", deployment_config_path))
 ARGV[0] = deployment_config_path
